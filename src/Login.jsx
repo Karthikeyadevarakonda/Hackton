@@ -1,64 +1,67 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   async function handleLogin(e) {
     e.preventDefault();
 
     if (!username || !password) {
-      setError('Username and password are required.');
+      setError("Username and password are required.");
       return;
     }
 
     try {
       const res = await axios.post(
-        'http://localhost:8080/login',
+        "http://localhost:8080/login",
         { username, password },
         { withCredentials: true }
       );
 
-      
-      localStorage.setItem("token",res.data.token);
-      
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("name", res.data.username);
 
-    const roleObject = res.data.role;
+      const roleObject = res.data.role;
 
-     const activeRole = Object.keys(roleObject).find(key => roleObject[key] === 1);
+      const activeRole = Object.keys(roleObject).find(
+        (key) => roleObject[key] === 1
+      );
 
-    if (activeRole) {
-      localStorage.setItem("role", activeRole); 
-    }
+      if (activeRole) {
+        localStorage.setItem("role", activeRole);
+      }
 
-    if (!activeRole) {
-       setError("Unexpected user role. Contact support.");
+      if (!activeRole) {
+        setError("Unexpected user role. Contact support.");
         return;
-    }
+      }
 
       setError(null);
 
-      
-      switch(activeRole){
-        case "isAdmin" : navigate("/adminDashboard");
-                         break;
-        case "isStaff" : navigate("/staffDashboard");
-                         break;
-        case "isHr"     : navigate("/hrDashboard");
-                         break;
+      switch (activeRole) {
+        case "isAdmin":
+          navigate("/adminDashboard", { replace: true });
+          break;
+        case "isStaff":
+          navigate("/staffDashboard", { replace: true });
+          break;
+        case "isHr":
+          navigate("/hrDashboard", { replace: true });
+          break;
+        default:
+          navigate("/welcome", { replace: true });
       }
-      
     } catch (error) {
-      console.error('Login error', error);
-      setError('Invalid username or password');
+      console.error("Login error", error);
+      setError("Invalid username or password");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
-
     }
   }
 
@@ -98,7 +101,7 @@ const Login = () => {
           </button>
 
           <p className="text-center text-xs text-gray-400">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link to="/register" className="text-teal-400 hover:underline">
               Register
             </Link>

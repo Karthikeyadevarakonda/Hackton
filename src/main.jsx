@@ -16,17 +16,22 @@ import StaffDashboard from './StaffDashboard.jsx'
 import HrProtectedRoute from './HrProtectedRoute.jsx'
 import StaffProtectedRoute from './StaffProtectedRoute.jsx'
 import IsAuthenticated from './IsAuthenticated.jsx'
+import NotAuthenticated from './NotAuthenticated.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
       {/* no Auth nedded  */}
       <Route path='/' element={<App />}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/register' element={<Register/>}/>
       <Route path='/features' element={<Features/>}/>
       <Route path='/aboutUs' element={<About/>}/>
-       <Route path='/unauth' element={<Unauth/>}/>
+      <Route path='/unauth' element={<Unauth/>}/>
+
+       <Route element={<NotAuthenticated/>}>
+           <Route path='/login' element={<Login/>}/>
+           <Route path='/register' element={<Register/>}/>
+       </Route>
+     
 
      <Route element={<IsAuthenticated/>}>
       <Route path='/welcome' element={<Welcome/>}/>

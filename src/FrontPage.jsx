@@ -10,6 +10,8 @@ const FrontPage = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const token = localStorage.getItem("token");
+
   const points = [
     [0, 70], [50, 60], [100, 80], [150, 50], [200, 75], [250, 60], [300, 85],
   ];
@@ -26,10 +28,9 @@ const FrontPage = () => {
     <nav className="hidden md:flex items-center space-x-6 text-sm text-gray-300">
       <Link to="/features" className="italic tracking-wide text-sm font-semibold  hover:text-teal-400">Features</Link>
       <Link to="/aboutUs"  className="italic tracking-wide text-sm font-semibold hover:text-teal-400">About Us</Link>
-      <Link to="/login"    className="italic tracking-wide text-sm font-semibold bg-teal-500 text-slate-900 px-4 py-2 rounded hover:bg-white transition">Login</Link>
-      <Link to="/register" className="italic tracking-wide text-sm font-semibold bg-slate-200 text-slate-900 px-4 py-2 rounded hover:bg-teal-400 transition">Register</Link>
+      <Link to="/login"    className="italic tracking-wide text-sm font-semibold bg-teal-500 text-slate-900 px-4 py-2 rounded hover:bg-white transition">{token ? "DashBoard" :"Login"}</Link>
+      {token ? "" : <Link to="/register" className="italic tracking-wide text-sm font-semibold bg-slate-200 text-slate-900 px-4 py-2 rounded hover:bg-teal-400 transition">Register</Link>}
     </nav>
-
     
     <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-300 focus:outline-none">
       {isOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
