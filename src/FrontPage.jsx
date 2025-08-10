@@ -39,11 +39,11 @@ const FrontPage = () => {
 
   
   {isOpen && (
-    <div className="md:hidden bg-slate-800 px-6 pb-4 space-y-2 text-sm text-gray-300">
+    <div className="md:hidden bg-slate-800 px-6 pb-4 space-y-4 text-sm text-gray-300">
       <Link to="/features" className="block hover:text-teal-400">Features</Link>
       <Link to="/aboutUs" className="block hover:text-teal-400">About Us</Link>
-      <Link to="/login" className="block bg-teal-500 text-slate-900 px-4 py-2 rounded hover:bg-white transition">Login</Link>
-      <Link to="/register" className="block bg-slate-200 text-slate-900 px-4 py-2 rounded hover:bg-teal-400 transition">Register</Link>
+       <Link to="/login"    className="block hover:text-teal-400">{token ? "DashBoard" :"Login"}</Link>
+      {token ? "" : <Link to="/register" className="italic tracking-wide text-sm font-semibold bg-slate-200 text-slate-900 px-4 py-2 rounded hover:bg-teal-400 transition">Register</Link>}
     </div>
   )}
 </header>

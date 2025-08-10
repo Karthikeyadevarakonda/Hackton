@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 
 
-const StaffProtectedRoute = () => {
+const StaffProtectedRoute = ({children}) => {
   const location = useLocation();
   const role = localStorage.getItem("role");
 

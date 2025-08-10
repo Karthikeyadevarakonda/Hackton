@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const NotAuthenticated = () => {
+
   const token = localStorage.getItem("token");
 
-  // If token exists, send to dashboard directly instead of null or "/" main page
   if (token) {
     const role = localStorage.getItem("role");
     switch (role) {
@@ -19,6 +19,7 @@ const NotAuthenticated = () => {
   }
 
   return <Outlet />;
+  
 };
 
 export default NotAuthenticated;

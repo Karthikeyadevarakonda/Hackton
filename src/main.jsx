@@ -11,16 +11,14 @@ import Unauth from './Unauth.jsx'
 import AdminDashboard from './adminComponents/AdminDashBoard.jsx'
 import Features from './Features.jsx'
 import About from './About.jsx'
-import HrDashboard from './HrDashboard.jsx'
-import StaffDashboard from './StaffDashboard.jsx'
+import HrDashboard from './hrComponents/HrDashboard.jsx'
+import StaffDashboard from './staffComponents/StaffDashboard.jsx'
 import HrProtectedRoute from './HrProtectedRoute.jsx'
 import StaffProtectedRoute from './StaffProtectedRoute.jsx'
 import IsAuthenticated from './IsAuthenticated.jsx'
 import NotAuthenticated from './NotAuthenticated.jsx'
 import NotFound from './NotFound.jsx'
-import ManageUsers from './adminComponents/ManageUsers.jsx'
-import SalaryLogs from './adminComponents/SalaryLogs.jsx'
-import Reports from './adminComponents/Reports.jsx'
+
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -40,10 +38,10 @@ createRoot(document.getElementById('root')).render(
      <Route element={<IsAuthenticated/>}>
       <Route path='/welcome' element={<Welcome/>}/>
     
-      <Route path='/adminDashboard' element={<ProtectedRoutes><AdminDashboard/></ProtectedRoutes>}/>
+      <Route path='/adminDashboard/*' element={<ProtectedRoutes><AdminDashboard/></ProtectedRoutes>}/>
 
-      <Route path='/hrDashboard' element={<HrProtectedRoute><HrDashboard/></HrProtectedRoute>}/>
-      <Route path='/staffDashboard' element={<StaffProtectedRoute><StaffDashboard/></StaffProtectedRoute>}/>
+      <Route path='/hrDashboard/*' element={<HrProtectedRoute><HrDashboard/></HrProtectedRoute>}/>
+      <Route path='/staffDashboard/*' element={<StaffProtectedRoute><StaffDashboard/></StaffProtectedRoute>}/>
      </Route>
 
      <Route path='*' element={<NotFound/>}/>

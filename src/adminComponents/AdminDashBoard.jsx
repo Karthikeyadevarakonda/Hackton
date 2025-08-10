@@ -1,24 +1,25 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUserCog, FaUsers, FaFileInvoice, FaFileAlt, FaBars, FaSignOutAlt } from "react-icons/fa";
+import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { FaUserCog, FaBars} from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import Dashboard from "./Dashboard";
 import ManageUsers from "./ManageUsers";
 import Reports from "./Reports";
 import SalaryLogs from "./SalaryLogs";
+import { FaPowerOff } from "react-icons/fa";
+import { FiHome, FiUsers, FiDollarSign, FiBarChart2 } from "react-icons/fi";
 
 
 
 const AdminDashboard = () => {
-
-  const [activeTab,setActiveTab] = useState("dashboard");
-
-        
   const navigate = useNavigate();
+  const location = useLocation(); 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
- const storedName = localStorage.getItem("name");
- const username = storedName ? storedName.charAt(0).toUpperCase() + storedName.slice(1) : '';
+
+  const storedName = localStorage.getItem("name");
+  const username = storedName
+    ? storedName.charAt(0).toUpperCase() + storedName.slice(1)
+    : "";
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -27,15 +28,16 @@ const AdminDashboard = () => {
   };
 
   const menuItems = [
-    {key:"dashboard" ,path:"/adminDashboard",label: "Dashboard", icon: <FaUserCog /> },
-    {key:"manageusers",path:"/manageUsers",label: "Manage Users", icon: <FaUsers /> },
-    {key:"salarylogs",path:"/salaryLogs",label: "Salary Logs", icon: <FaFileInvoice /> },
-    {key:"reports", path:"/reports",label: "Reports", icon: <FaFileAlt /> },
-  ];
+  { path: "/adminDashboard", label: "Dashboard", icon: <FiHome /> },
+  { path: "/adminDashboard/manageUsers", label: "Manage Users", icon: <FiUsers /> },
+  { path: "/adminDashboard/salaryLogs", label: "Salary Logs", icon: <FiDollarSign /> },
+  { path: "/adminDashboard/reports", label: "Reports", icon: <FiBarChart2 /> },
+];
+
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
-    
+      {/* Mobile menu toggle */}
       <div className="md:hidden absolute top-4 left-4 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -45,59 +47,83 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      
-      <aside
-        className={`bg-slate-800 w-64 fixed h-full z-40 border-r border-slate-700 transform transition-transform duration-300 ease-in-out
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
-      >
-        <div className="p-6 text-teal-400 text-lg mt-4 md:mt-0 md:text-2xl font-bold border-b border-slate-700 flex items-center gap-2">
-          <FaUserCog className="text-slate-300" />
-          Admin Panel
-        </div>
-        <nav className="mt-4">
-          <ul className="space-y-1 text-sm text-gray-300">
-            {menuItems.map((item, idx) => (
-              <li key={idx}
-                onClick={()=>setActiveTab(item.key)}
-                className="flex items-center gap-3 px-6 py-3 hover:bg-slate-700 cursor-pointer">
+      {/* Sidebar */}
+     <aside
+  className={`bg-slate-800 w-64 fixed h-full z-40 border-r border-slate-700 
+              transform transition-transform duration-300 ease-in-out
+              flex flex-col justify-between
+              ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+>
+  {/* Top Section */}
+  <div>
+    {/* Logo / Title */}
+    <div className="p-6 text-teal-400 text-lg mt-4 md:mt-0 md:text-2xl font-bold border-b border-slate-700 flex items-center gap-2">
+      <FaUserCog className="text-slate-300" />
+      Admin Panel
+    </div>
+
+    {/* Menu Items */}
+    <nav className="mt-4">
+      <ul className="space-y-1 text-sm text-gray-300">
+        {menuItems.map((item, idx) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <li key={idx}>
+              <Link
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center gap-3 px-6 py-3 cursor-pointer transition relative
+                  ${isActive 
+                    ? "bg-slate-700 text-teal-400 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-teal-400" 
+                    : "hover:bg-slate-700 hover:text-teal-300"}`}
+              >
                 {item.icon}
                 {item.label}
-              </li>
-            ))}
-            <li
-              onClick={logout}
-              className="flex items-center gap-3 px-6 py-3 hover:bg-slate-700 text-red-400 cursor-pointer"
-            >
-              <FaSignOutAlt />
-              Logout
+              </Link>
             </li>
-          </ul>
-        </nav>
-      </aside>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
 
-      
+  {/* Bottom Section - Logout */}
+  <div className="border-t border-slate-700">
+    <li
+      onClick={logout}
+      className="flex items-center gap-3 px-6 py-4 cursor-pointer 
+                 text-white hover:text-teal-400
+                 hover:[text-shadow:_0_0_8px_#60a5fa,0_0_12px_#60a5fa]
+                 transition-all duration-300"
+    >
+      <FaPowerOff className="hover:[text-shadow:_0_0_8px_#60a5fa,0_0_12px_#60a5fa]" />
+      Logout
+    </li>
+  </div>
+</aside>
+
+
+      {/* Main Content */}
       <main className="flex-1 ml-0 md:ml-64 p-6">
-      
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 bg-slate-800 border border-slate-700 rounded-lg px-6 py-4 shadow">
-  <h1 className="text-2xl text-center lg:text-start w-full lg:w-auto font-semibold text-teal-400 pb-2 lg:pb-0">
-    Welcome, {username ? username : "Admin"}
-  </h1>
-  <button
-    onClick={logout}
-    className="bg-teal-500 hover:bg-teal-400 text-slate-900 px-4 py-2 rounded font-semibold transition"
-  >
-    Log Out
-  </button>
-</header>
+          <h1 className="text-2xl text-center lg:text-start w-full lg:w-auto font-semibold text-teal-400 pb-2 lg:pb-0">
+            Welcome, {username || "Admin"}
+          </h1>
+          <button
+            onClick={logout}
+            className="bg-teal-500 hover:bg-teal-400 text-slate-900 px-4 py-2 rounded font-semibold transition"
+          >
+            Log Out
+          </button>
+        </header>
 
-
-        {activeTab === "dashboard" && <Dashboard/>}
-        {activeTab === "manageusers" && <ManageUsers/>}
-        {activeTab === "reports" && <Reports/>}
-        {activeTab === "salarylogs" && <SalaryLogs/>}
-
-        
-
+        {/* Nested Routes */}
+        <Routes>
+          <Route index element={<Dashboard />} />
+          <Route path="manageUsers" element={<ManageUsers />} />
+          <Route path="salaryLogs" element={<SalaryLogs />} />
+          <Route path="reports" element={<Reports />} />
+        </Routes>
       </main>
     </div>
   );
