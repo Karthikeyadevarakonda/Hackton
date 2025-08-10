@@ -150,7 +150,7 @@ export default function ManageUsers() {
     <div className="p-4 sm:p-6 bg-gradient-to-b from-gray-900 to-black min-h-screen text-white flex flex-col max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h1 className="text-2xl font-bold tracking-wide">Manage Employees</h1>
+        <h1 className="text-lg lg:text-2xl font-bold tracking-wide">Manage Employees</h1>
         <Button
   variant="outlined"
   startIcon={<FaPlus />}

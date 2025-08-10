@@ -22,7 +22,7 @@ const Reports = () => {
 
   return (
     <div className="bg-slate-900 min-h-screen text-white p-6 rounded-lg shadow">
-      <h1 className="text-2xl font-semibold text-yellow-400 mb-6 flex items-center gap-2">
+      <h1 className="text-lg lg:text-2xl font-semibold text-yellow-400 mb-6 flex items-center gap-2">
         <FiCalendar /> Salary Summary Reports
       </h1>
 
