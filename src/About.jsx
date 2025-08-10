@@ -1,4 +1,4 @@
-// src/About.jsx
+
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -24,10 +24,10 @@ const gradients = [
   "bg-gradient-to-r from-pink-500 to-rose-400",
   "bg-gradient-to-r from-teal-400 to-emerald-400",
   "bg-gradient-to-r from-indigo-500 to-purple-500",
-  "bg-yellow-400", // Karthikeya (center) - yellow
+  "bg-yellow-400", 
 ];
 
-// ---- Desktop card (grid) ----
+
 const TeamCard = ({ member, idx }) => {
   const Icon = member.icon;
   return (
@@ -50,7 +50,7 @@ const TeamCard = ({ member, idx }) => {
   );
 };
 
-// ---- Mobile carousel item ----
+
 const CarouselItem = ({ member, idx, onOpen }) => {
   const Icon = member.icon;
   return (
@@ -82,12 +82,12 @@ const CarouselItem = ({ member, idx, onOpen }) => {
   );
 };
 
-// ---- Main About component ----
+
 const About = () => {
   const [modal, setModal] = useState({ open: false, member: null, idx: 0 });
   const carouselRef = useRef(null);
 
-  // close modal with ESC
+  
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape" && modal.open) setModal({ open: false, member: null, idx: 0 });
@@ -123,11 +123,24 @@ const About = () => {
       </header>
 
       {/* Desktop grid */}
-      <section className="hidden md:grid md:grid-cols-3 md:gap-8 max-w-6xl mx-auto">
-        {team.map((m, i) => (
-          <TeamCard key={m.name} member={m} idx={i} />
+    
+<section className="hidden md:flex md:items-center md:justify-center min-h-[80vh]">
+  <div className="grid grid-cols-3 gap-4 max-w-5xl">
+    {team.slice(0, 3).map((m, i) => (
+      <TeamCard key={m.name} member={m} idx={i} />
+    ))}
+
+    {team.length > 3 && (
+      <div className="col-span-3 flex justify-center gap-4">
+        {team.slice(3).map((m, i) => (
+          <TeamCard key={m.name} member={m} idx={i + 3} />
         ))}
-      </section>
+      </div>
+    )}
+  </div>
+</section>
+
+
 
       {/* Mobile carousel */}
       <section className="md:hidden mt-4">
