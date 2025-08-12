@@ -4,25 +4,26 @@ import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FaArtstation } from "react-icons/fa";
 
-const FrontPage = () => {
+const App= () => {
   const [isOpen, setIsOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   const points = [
     [0, 70], [50, 60], [100, 80], [150, 50], [200, 75], [250, 60], [300, 85],
   ];
+  
   const pathD = `M ${points.map(([x, y]) => `${x},${y}`).join(' L ')}`;
 
   return (
     <div className="min-h-screen bg-slate-900 text-gray-100 flex flex-col">
-      {/* Header */}
+      
       <header className="bg-slate-800 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl sm:text-2xl font-bold text-teal-400 gap-2 flex items-center">
             <FaArtstation className='text-slate-300' /> SalaryGen
           </h1>
 
-          {/* Desktop Nav */}
+          
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 text-sm text-gray-300">
             <Link to="/features" className="italic font-semibold hover:text-teal-400">Features</Link>
             <Link to="/aboutUs" className="italic font-semibold hover:text-teal-400">About Us</Link>
@@ -42,7 +43,7 @@ const FrontPage = () => {
             )}
           </nav>
 
-          {/* Mobile Menu Button */}
+          
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-gray-300 focus:outline-none"
@@ -51,7 +52,7 @@ const FrontPage = () => {
           </button>
         </div>
 
-        {/* Mobile Nav */}
+        
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
@@ -77,9 +78,9 @@ const FrontPage = () => {
         </motion.div>
       </header>
 
-      {/* Main */}
+     
       <main className="flex flex-1 flex-col lg:flex-row items-center justify-between px-6 sm:px-10 py-10 sm:py-20 gap-8 sm:gap-10">
-        {/* Left Text */}
+        
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -109,7 +110,7 @@ const FrontPage = () => {
           </div>
         </motion.div>
 
-        {/* Right Chart */}
+       
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,7 +142,7 @@ const FrontPage = () => {
         </motion.div>
       </main>
 
-      {/* Footer */}
+     
       <footer className="text-center text-xs sm:text-sm text-gray-600 py-4 border-t border-slate-800">
         © 2025 SalaryGen. All rights reserved.
       </footer>
@@ -149,4 +150,4 @@ const FrontPage = () => {
   );
 };
 
-export default FrontPage;
+export default App;
