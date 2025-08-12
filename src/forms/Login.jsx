@@ -22,10 +22,11 @@ const Login = () => {
     try {
       const res = await postData({ username, password });
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("name", res.data.username);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("name", res.username);
+      
+      const roleObject = res.role;
 
-      const roleObject = res.data.role;
       const activeRole = Object.keys(roleObject).find(
         (key) => roleObject[key] === 1
       );
