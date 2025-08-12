@@ -1,48 +1,43 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import usePost from "../customHooks/usePost";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [formError, setFormError] = useState(null);
+
+  const { data, error: postError, loading, postData } = usePost("http://localhost:8080/login");
 
   async function handleLogin(e) {
-    e.preventDefault();
+    e.preventDefault(); 
 
     if (!username || !password) {
-      setError("Username and password are required.");
+      setFormError("Username and password are required.");
       return;
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:8080/login",
-        { username, password },
-        { withCredentials: true }
-      );
+      const res = await postData({ username, password });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("name", res.data.username);
 
       const roleObject = res.data.role;
-
       const activeRole = Object.keys(roleObject).find(
         (key) => roleObject[key] === 1
       );
 
-      if (activeRole) {
-        localStorage.setItem("role", activeRole);
-      }
-
       if (!activeRole) {
-        setError("Unexpected user role. Contact support.");
+        setFormError("Unexpected user role. Contact support.");
         return;
       }
 
-      setError(null);
+      localStorage.setItem("role", activeRole);
+      
+      setFormError(null); 
 
       switch (activeRole) {
         case "isAdmin":
@@ -57,9 +52,9 @@ const Login = () => {
         default:
           navigate("/welcome", { replace: true });
       }
-    } catch (error) {
-      console.error("Login error", error);
-      setError("Invalid username or password");
+    } catch (err) {
+      console.error("Login error", err);
+      setFormError("Invalid username or password");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
     }
@@ -79,7 +74,7 @@ const Login = () => {
             required
             type="text"
             placeholder="Username"
-            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 text-normal"
+            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
           />
 
           <input
@@ -88,16 +83,21 @@ const Login = () => {
             required
             type="password"
             placeholder="Password"
-            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 text-normal"
+            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
           />
 
-          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
+          {(formError || postError) && (
+            <p className="text-red-500 text-center text-sm">
+              {formError || postError}
+            </p>
+          )}
 
           <button
             type="submit"
-            className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded text-normal font-bold transition"
+            disabled={loading}
+            className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded font-bold transition"
           >
-            LOG-IN
+            {loading ? "Logging in..." : "LOG-IN"}
           </button>
 
           <p className="text-center text-xs text-gray-400">

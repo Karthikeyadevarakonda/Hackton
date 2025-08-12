@@ -1,43 +1,42 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import usePost from '../customHooks/usePost';
 
 const Register = () => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [formError, setFormError] = useState(null);
+
+  const { data, error: postError, loading, postData } = usePost(
+    'http://localhost:8080/register'
+  );
 
   async function handleRegister(e) {
     e.preventDefault();
 
     if (!username || !password) {
-      setError('Username and password are required.');
+      setFormError('Username and password are required.');
       return;
     }
 
     try {
-      const res = await axios.post(
-        'http://localhost:8080/register',
-        { username, password },
-        { withCredentials: true }
-      );
-      console.log(res.data);
-      setError(null);
+      await postData({ username, password });
+      setFormError(null);
       navigate('/login');
-    } catch (error) {
-      console.error('Register error', error);
-      setError('Registration failed');
+    } catch (err) {
+      console.error('Register error', err);
+      setFormError('Registration failed');
     }
   }
 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
-<div className="relative w-full max-w-sm bg-slate-800 rounded-xl shadow-md p-6">
-<div className="absolute top-0 left-0 w-full h-1 rounded-t-xl bg-gradient-to-r from-white via-teal-400 to-white" />
+      <div className="relative w-full max-w-sm bg-slate-800 rounded-xl shadow-md p-6">
+        <div className="absolute top-0 left-0 w-full h-1 rounded-t-xl bg-gradient-to-r from-white via-teal-400 to-white" />
 
-        <h1 className="text-center text-xl  rounded-t-xl font-bold tracking-wide text-white mb-4">
+        <h1 className="text-center text-xl font-bold tracking-wide text-white mb-4">
           REGISTER
         </h1>
 
@@ -60,13 +59,18 @@ const Register = () => {
             className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 text-normal"
           />
 
-          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
+          {(formError || postError) && (
+            <p className="text-red-500 text-center text-sm">
+              {formError || postError}
+            </p>
+          )}
 
           <button
             type="submit"
-            className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded text-normal font-bold transition"
+            disabled={loading}
+            className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded font-bold transition"
           >
-            REGISTER
+            {loading ? 'Registering...' : 'REGISTER'}
           </button>
 
           <p className="text-center text-xs text-gray-400">
