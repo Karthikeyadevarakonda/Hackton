@@ -118,7 +118,7 @@ const About = () => {
           Meet The Team
         </div>
         <p className="text-gray-400 mt-3 max-w-xl mx-auto text-sm sm:text-base">
-          We're a small team building big ideas — friendly, fast, and focused. Tap a profile to learn more.
+         We dream big, build fast, and keep it personal. Meet the people turning bold ideas into reality
         </p>
       </header>
 
