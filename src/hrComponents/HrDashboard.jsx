@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { FaUserTie, FaBars, FaPowerOff, FaClipboardList, FaFileInvoiceDollar } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { FiHome, FiUsers, FiDollarSign } from "react-icons/fi";
+import { FiHome, FiUsers, FiDollarSign, FiSettings, FiBarChart2 } from "react-icons/fi";
 
 import Dashboard from "./Dashboard";
 import Reports from "./Reports";
 import SalaryLogs from "./SalaryLogs";
 import StaffDetails from "./StaffDetails";
+import SalaryComponents from "./SalaryComponents";
 
 const HrDashboard = () => {
   const navigate = useNavigate();
@@ -29,7 +30,8 @@ const HrDashboard = () => {
     { path: "/hrDashboard", label: "Dashboard", icon: <FiHome /> },
     { path: "/hrDashboard/staff", label: "Staff Details", icon: <FiUsers /> },
     { path: "/hrDashboard/salaryLogs", label: "Salary Logs", icon: <FiDollarSign /> },
-    { path: "/hrDashboard/reports", label: "Acquittance Report", icon: <FaClipboardList /> },
+    { path: "/hrDashboard/salaryComponents", label: "Salary Components", icon: <FiSettings /> },
+    { path: "/hrDashboard/reports",  label: "Reports", icon: <FiBarChart2 /> },
   ];
 
   return (
@@ -118,6 +120,7 @@ const HrDashboard = () => {
           <Route index element={<Dashboard />} />
           <Route path="staff" element={<StaffDetails />} />
           <Route path="salaryLogs" element={<SalaryLogs />} />
+          <Route path="salaryComponents" element={<SalaryComponents/>} />
           <Route path="reports" element={<Reports />} />
         </Routes>
       </main>
