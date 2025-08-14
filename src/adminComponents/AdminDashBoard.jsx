@@ -2,15 +2,13 @@ import { useState } from "react";
 import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { FaUserCog, FaBars, FaPowerOff } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { FiHome, FiUsers, FiDollarSign, FiBarChart2 } from "react-icons/fi";
-import { FiSettings } from "react-icons/fi";
+import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiSettings } from "react-icons/fi";
 
-
-import Dashboard from "./Dashboard";
 import ManageUsers from "./ManageUsers";
 import Reports from "./Reports";
 import SalaryLogs from "./SalaryLogs";
 import SalaryComponents from "./SalaryComponents";
+import Dashboard from "./Dashboard";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -20,7 +18,7 @@ const AdminDashboard = () => {
   const storedName = localStorage.getItem("name");
   const username = storedName
     ? storedName.charAt(0).toUpperCase() + storedName.slice(1)
-    : "";
+    : "Admin";
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -38,7 +36,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
-      {/* Mobile Menu Toggle */}
+      {/* Mobile menu button */}
       <div className="md:hidden absolute top-4 left-4 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -48,7 +46,7 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
@@ -62,40 +60,38 @@ const AdminDashboard = () => {
                     flex flex-col justify-between transform transition-transform duration-300 ease-in-out
                     ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        {/* Top Section */}
         <div>
           <div className="p-6 text-teal-400 text-lg md:text-2xl font-bold border-b border-slate-700 flex items-center gap-2">
             <FaUserCog className="text-slate-300" />
             Admin Panel
           </div>
 
-          {/* Menu Items */}
           <nav className="mt-4">
             <ul className="space-y-1 text-gray-300">
               {menuItems.map((item, idx) => {
-  const isActive = location.pathname === item.path;
-  return (
-    <li key={idx}>
-      <Link
-        to={item.path}
-        onClick={() => setSidebarOpen(false)}
-        className={`flex items-center gap-3 px-6 py-3 cursor-pointer transition relative
-          ${isActive
-            ? "bg-slate-700 text-teal-400 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-teal-400"
-            : "hover:bg-slate-700 hover:text-teal-300"}`}
-      >
-        {item.icon}
-        {item.label}
-      </Link>
-    </li>
-  );
-})}
-
+                const isActive = location.pathname === item.path;
+                return (
+                  <li key={idx}>
+                    <Link
+                      to={item.path}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-6 py-3 cursor-pointer transition relative
+                        ${
+                          isActive
+                            ? "bg-slate-700 text-teal-400 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-teal-400"
+                            : "hover:bg-slate-700 hover:text-teal-300"
+                        }`}
+                    >
+                      {item.icon}
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
 
-        {/* Bottom Section - Logout */}
         <div className="border-t border-slate-700">
           <li
             onClick={logout}
@@ -108,27 +104,26 @@ const AdminDashboard = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-0 md:ml-64 p-6">
+      {/* Main content */}
+      <main className="flex-1 ml-0 md:ml-64 p-6 overflow-x-hidden">
         {/* Header */}
-        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 bg-slate-800 border border-slate-700 rounded-lg px-6 py-4 shadow">
-          <h1 className="text-2xl font-semibold text-teal-400">
-            Welcome, {username || "Admin"}
+        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 bg-slate-800 border border-slate-700 rounded-lg px-6 py-4 shadow w-full">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-300 to-slate-300 bg-clip-text text-transparent">
+            🌟 Welcome, {username}
           </h1>
           <button
             onClick={logout}
-            className="bg-teal-500 hover:bg-teal-400 text-slate-900 px-4 py-2 rounded font-semibold transition"
+            className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold shadow transition-transform hover:scale-105"
           >
             Log Out
           </button>
         </header>
 
-        {/* Nested Routes */}
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="manageUsers" element={<ManageUsers />} />
           <Route path="salaryLogs" element={<SalaryLogs />} />
-          <Route path="salaryComponents" element={<SalaryComponents/>} />
+          <Route path="salaryComponents" element={<SalaryComponents />} />
           <Route path="reports" element={<Reports />} />
         </Routes>
       </main>

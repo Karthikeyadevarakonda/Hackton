@@ -36,7 +36,7 @@ const HrDashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
-      {/* Mobile menu toggle */}
+      
       <div className="md:hidden absolute top-4 left-4 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -46,22 +46,22 @@ const HrDashboard = () => {
         </button>
       </div>
 
-      {/* Sidebar */}
+      
       <aside
         className={`bg-slate-800 w-64 fixed h-full z-40 border-r border-slate-700 
                     transform transition-transform duration-300 ease-in-out
                     flex flex-col justify-between
                     ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        {/* Top Section */}
+       
         <div>
-          {/* Logo / Title */}
+         
           <div className="p-6 text-teal-400 text-lg mt-4 md:mt-0 md:text-2xl font-bold border-b border-slate-700 flex items-center gap-2">
             <FaUserTie className="text-slate-300" />
             HR Panel
           </div>
 
-          {/* Menu Items */}
+         
           <nav className="mt-4">
             <ul className="space-y-1 text-sm text-gray-300">
               {menuItems.map((item, idx) => {
@@ -86,7 +86,7 @@ const HrDashboard = () => {
           </nav>
         </div>
 
-        {/* Bottom Section - Logout */}
+        
         <div className="border-t border-slate-700">
           <li
             onClick={logout}
@@ -101,7 +101,7 @@ const HrDashboard = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
+    
       <main className="flex-1 ml-0 md:ml-64 p-6">
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 bg-slate-800 border border-slate-700 rounded-lg px-6 py-4 shadow">
           <h1 className="text-2xl text-center lg:text-start w-full lg:w-auto font-semibold text-teal-400 pb-2 lg:pb-0">
@@ -115,7 +115,7 @@ const HrDashboard = () => {
           </button>
         </header>
 
-        {/* Nested Routes */}
+        
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="staff" element={<StaffDetails />} />

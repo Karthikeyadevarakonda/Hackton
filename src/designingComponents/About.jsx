@@ -96,10 +96,10 @@ const About = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, [modal.open]);
 
-  // center selected item in the carousel (optional)
+  
   const openModal = (member, idx) => {
     setModal({ open: true, member, idx });
-    // center the clicked item in horizontal scroll (nice UX)
+
     if (carouselRef.current) {
       const container = carouselRef.current;
       const item = container.children[idx];
@@ -121,8 +121,6 @@ const About = () => {
          We dream big, build fast, and keep it personal. Meet the people turning bold ideas into reality
         </p>
       </header>
-
-      {/* Desktop grid */}
     
 <section className="hidden md:flex md:items-center md:justify-center min-h-[80vh]">
   <div className="grid grid-cols-3 gap-4 max-w-5xl">
@@ -140,9 +138,6 @@ const About = () => {
   </div>
 </section>
 
-
-
-      {/* Mobile carousel */}
       <section className="md:hidden mt-4">
         <div className="relative">
           <div
@@ -156,14 +151,13 @@ const About = () => {
             ))}
           </div>
 
-          {/* small scrollbar hint */}
           <div className="absolute -bottom-1 left-0 right-0 flex justify-center pointer-events-none">
             <div className="w-24 h-1 rounded-full bg-slate-700/60" />
           </div>
         </div>
       </section>
 
-      {/* Modal for details */}
+
       <AnimatePresence>
         {modal.open && modal.member && (
           <motion.div

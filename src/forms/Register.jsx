@@ -1,33 +1,32 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import usePost from '../customHooks/usePost';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useApi from "../customHooks/useApi"; // ✅ updated import
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [formError, setFormError] = useState(null);
 
-  const { data, error: postError, loading, postData } = usePost(
-    'http://localhost:8080/register'
-  );
+  // ✅ initialize useApi with base URL
+  const { error, loading, post } = useApi("http://localhost:8080/register");
 
   async function handleRegister(e) {
     e.preventDefault();
 
     if (!username || !password) {
-      setFormError('Username and password are required.');
+      setFormError("Username and password are required.");
       return;
     }
 
     try {
-      await postData({ username, password });
+      await post("", { username, password }); // ✅ using post method from useApi
       setFormError(null);
-      navigate('/login');
+      navigate("/login");
     } catch (err) {
-      console.error('Register error', err);
-      setFormError('Registration failed');
+      console.error("Register error", err);
+      setFormError("Registration failed");
     }
   }
 
@@ -59,9 +58,9 @@ const Register = () => {
             className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 text-normal"
           />
 
-          {(formError || postError) && (
+          {(formError || error) && (
             <p className="text-red-500 text-center text-sm">
-              {formError || postError}
+              {formError || error}
             </p>
           )}
 
@@ -70,11 +69,11 @@ const Register = () => {
             disabled={loading}
             className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded font-bold transition"
           >
-            {loading ? 'Registering...' : 'REGISTER'}
+            {loading ? "Registering..." : "REGISTER"}
           </button>
 
           <p className="text-center text-xs text-gray-400">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/login" className="text-teal-400 hover:underline">
               Login
             </Link>

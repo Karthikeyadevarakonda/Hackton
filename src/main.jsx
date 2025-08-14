@@ -22,7 +22,8 @@ import NotFound from './designingComponents/NotFound.jsx'
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
-      {/* no Auth nedded  */}
+
+   
       <Route path='/' element={<App />}/>
       <Route path='/features' element={<Features/>}/>
       <Route path='/aboutUs' element={<About/>}/>
@@ -38,9 +39,9 @@ createRoot(document.getElementById('root')).render(
      <Route element={<IsAuthenticated/>}>
 
       <Route path='/adminDashboard/*' element={<ProtectedRoutes><AdminDashboard/></ProtectedRoutes>}/>
-
       <Route path='/hrDashboard/*' element={<HrProtectedRoute><HrDashboard/></HrProtectedRoute>}/>
       <Route path='/staffDashboard/*' element={<StaffProtectedRoute><StaffDashboard/></StaffProtectedRoute>}/>
+      
      </Route>
 
      <Route path='*' element={<NotFound/>}/>

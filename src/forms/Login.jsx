@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import usePost from "../customHooks/usePost";
+import useApi from "../customHooks/useApi"; // ✅ updated import
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,10 +9,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState(null);
 
-  const { data, error: postError, loading, postData } = usePost("http://localhost:8080/login");
+  // ✅ initialize with baseUrl
+  const { data, error, loading, post } = useApi("http://localhost:8080/login");
 
   async function handleLogin(e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     if (!username || !password) {
       setFormError("Username and password are required.");
@@ -20,13 +21,12 @@ const Login = () => {
     }
 
     try {
-      const res = await postData({ username, password });
+      const res = await post("", { username, password }); // ✅ post method from useApi
 
       localStorage.setItem("token", res.token);
       localStorage.setItem("name", res.username);
-      
-      const roleObject = res.role;
 
+      const roleObject = res.role;
       const activeRole = Object.keys(roleObject).find(
         (key) => roleObject[key] === 1
       );
@@ -37,8 +37,7 @@ const Login = () => {
       }
 
       localStorage.setItem("role", activeRole);
-      
-      setFormError(null); 
+      setFormError(null);
 
       switch (activeRole) {
         case "isAdmin":
@@ -87,9 +86,9 @@ const Login = () => {
             className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
           />
 
-          {(formError || postError) && (
+          {(formError || error) && (
             <p className="text-red-500 text-center text-sm">
-              {formError || postError}
+              {formError || error}
             </p>
           )}
 
