@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { FaUserCog, FaBars, FaPowerOff } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiSettings } from "react-icons/fi";
+import { FiHome, FiUsers, FiBarChart2, FiSettings } from "react-icons/fi";
 
 import ManageUsers from "./ManageUsers";
 import Reports from "./Reports";
-import SalaryLogs from "./SalaryLogs";
 import SalaryComponents from "./SalaryComponents";
 import Dashboard from "./Dashboard";
 
@@ -29,7 +28,6 @@ const AdminDashboard = () => {
   const menuItems = [
     { path: "/adminDashboard", label: "Dashboard", icon: <FiHome /> },
     { path: "/adminDashboard/manageUsers", label: "Manage Users", icon: <FiUsers /> },
-    { path: "/adminDashboard/salaryLogs", label: "Salary Logs", icon: <FiDollarSign /> },
     { path: "/adminDashboard/salaryComponents", label: "Salary Components", icon: <FiSettings /> },
     { path: "/adminDashboard/reports", label: "Reports", icon: <FiBarChart2 /> },
   ];
@@ -122,7 +120,6 @@ const AdminDashboard = () => {
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="manageUsers" element={<ManageUsers />} />
-          <Route path="salaryLogs" element={<SalaryLogs />} />
           <Route path="salaryComponents" element={<SalaryComponents />} />
           <Route path="reports" element={<Reports />} />
         </Routes>
