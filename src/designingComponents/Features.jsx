@@ -14,24 +14,26 @@ const Features = () => {
       subtitle: "Based on effective dates, rules & deductions",
       icon: CalculatorIcon,
       component: (
-        <svg viewBox="0 0 320 100" className="w-full max-w-md">
-          <motion.path
-            d={`M ${[70, 60, 80, 50, 75, 60, 85]
-              .map((y, i) => `${i * 50},${100 - y}`)
-              .join(" L ")}`}
-            stroke="orange"
-            strokeWidth="4"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-          />
-        </svg>
+        <div className="w-full max-w-md h-40 overflow-hidden">
+          <svg viewBox="0 0 320 100" className="w-full h-full">
+            <motion.path
+              d={`M ${[70, 60, 80, 50, 75, 60, 85]
+                .map((y, i) => `${i * 50},${100 - y}`)
+                .join(" L ")}`}
+              stroke="orange"
+              strokeWidth="4"
+              fill="none"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut",
+              }}
+            />
+          </svg>
+        </div>
       ),
     },
     {
@@ -39,29 +41,30 @@ const Features = () => {
       subtitle: "Update salary components anytime with date tracking",
       icon: Cog6ToothIcon,
       component: (
-        <svg viewBox="0 0 300 100" className="w-full max-w-md">
-          <defs>
-            <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f97316" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#f97316" stopOpacity="0.1" />
-            </linearGradient>
-          </defs>
-
-          <motion.path
-            fill="url(#grad)"
-            stroke="orange"
-            strokeWidth="2"
-            d="M0,80 C40,60 80,40 120,50 C160,60 200,30 240,40 C280,50 300,30 300,30 L300,100 L0,100 Z"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-          />
-        </svg>
+        <div className="w-full max-w-md h-40 overflow-hidden">
+          <svg viewBox="0 0 300 100" className="w-full h-full">
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#f97316" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#f97316" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            <motion.path
+              fill="url(#grad)"
+              stroke="orange"
+              strokeWidth="2"
+              d="M0,80 C40,60 80,40 120,50 C160,60 200,30 240,40 C280,50 300,30 300,30 L300,100 L0,100 Z"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut",
+              }}
+            />
+          </svg>
+        </div>
       ),
     },
     {
@@ -69,26 +72,28 @@ const Features = () => {
       subtitle: "Generate acquittance reports & salary slips easily",
       icon: DocumentChartBarIcon,
       component: (
-        <svg viewBox="0 0 200 100" className="w-full max-w-md">
-          {[50, 70, 60, 80, 40].map((h, i) => (
-            <motion.rect
-              key={i}
-              x={i * 35 + 10}
-              y={100 - h}
-              width="20"
-              height={h}
-              fill="orange"
-              initial={{ height: 0, y: 100 }}
-              animate={{ height: h, y: 100 - h }}
-              transition={{
-                delay: i * 0.2,
-                duration: 0.8,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            />
-          ))}
-        </svg>
+        <div className="w-full max-w-md h-40 overflow-hidden flex items-end justify-center gap-2">
+          <svg viewBox="0 0 200 100" className="w-full h-full">
+            {[50, 70, 60, 80, 40].map((h, i) => (
+              <motion.rect
+                key={i}
+                x={i * 35 + 10}
+                y={100 - h}
+                width="20"
+                height={h}
+                fill="orange"
+                initial={{ y: 100, height: 0 }}
+                animate={{ y: 100 - h, height: h }}
+                transition={{
+                  delay: i * 0.2,
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              />
+            ))}
+          </svg>
+        </div>
       ),
     },
     {
@@ -96,13 +101,13 @@ const Features = () => {
       subtitle: "Ensure secure access for Admin, HR & Management",
       icon: UserGroupIcon,
       component: (
-        <div className="relative w-36 h-36">
+        <div className="relative w-36 h-36 overflow-hidden flex items-center justify-center">
           <motion.div
             className="absolute inset-0 rounded-full bg-orange-500 opacity-30"
             animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-orange-400 text-white font-bold text-xl">
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-orange-400 text-white font-bold text-xl text-center px-2">
             Admin / HR
           </div>
         </div>
@@ -113,11 +118,13 @@ const Features = () => {
       subtitle: "Every update is tracked for transparency",
       icon: ClipboardDocumentCheckIcon,
       component: (
-        <motion.div
-          className="w-32 h-32 border-8 border-t-orange-500 border-orange-300 rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-        />
+        <div className="w-36 h-36 overflow-hidden flex items-center justify-center">
+          <motion.div
+            className="w-32 h-32 border-8 border-t-orange-500 border-orange-300 rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+          />
+        </div>
       ),
     },
   ];
@@ -136,7 +143,7 @@ const Features = () => {
       {features.map((feature, index) => (
         <motion.div
           key={index}
-          className={`flex flex-col-reverse lg:flex-row items-center gap-10 ${
+          className={`flex flex-col-reverse lg:flex-row items-center gap-10 min-h-[250px] ${
             index % 2 !== 0 ? "lg:flex-row-reverse" : ""
           }`}
           initial={{ opacity: 0, y: 40 }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useApi from "../customHooks/useApi";
 import {
   PieChart,
@@ -33,7 +33,6 @@ function DashboardShimmer() {
 
   return (
     <div className="p-6 space-y-6">
-     
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <CardSkeleton />
         <CardSkeleton />
@@ -60,11 +59,9 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
 
- 
   useEffect(() => {
     get();
   }, [get]);
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,8 +79,15 @@ const Dashboard = () => {
             componentTotals[comp] = (componentTotals[comp] || 0) + 1;
           });
 
-          let deductionComponents = ["PF", "ESI", "PT", "TDS", "OTHER_DEDUCTIONS"];
-          let deductions = comps.filter((c) => deductionComponents.includes(c)).length * 1000;
+          let deductionComponents = [
+            "PF",
+            "ESI",
+            "PT",
+            "TDS",
+            "OTHER_DEDUCTIONS",
+          ];
+          let deductions =
+            comps.filter((c) => deductionComponents.includes(c)).length * 1000;
           let salary = basic + comps.length * 1000;
 
           totalSalaries += salary;
@@ -101,7 +105,7 @@ const Dashboard = () => {
         });
       }
       setLoading(false);
-    }, 500); 
+    }, 500);
     return () => clearTimeout(timer);
   }, [data]);
 
@@ -112,27 +116,37 @@ const Dashboard = () => {
     { name: "Deductions", value: stats.totalDeductions },
   ];
 
-  const barData = Object.entries(stats.componentTotals).map(([key, value], idx) => ({
-    name: key.length > 10 ? key.slice(0, 10) + "…" : key,
-    count: value,
-    color: COLORS[idx % COLORS.length],
-  }));
+  const barData = Object.entries(stats.componentTotals).map(
+    ([key, value], idx) => ({
+      name: key.length > 10 ? key.slice(0, 10) + "…" : key,
+      count: value,
+      color: COLORS[idx % COLORS.length],
+    })
+  );
 
   return (
     <div className="p-6 space-y-6 bg-slate-900 min-h-screen text-white">
-      
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {[
           { title: "Total Staff", value: stats.totalStaff },
-          { title: "Total Salaries", value: `₹${stats.totalSalaries.toLocaleString()}` },
-          { title: "Total Deductions", value: `₹${stats.totalDeductions.toLocaleString()}` },
+          {
+            title: "Total Salaries",
+            value: `₹${stats.totalSalaries.toLocaleString()}`,
+          },
+          {
+            title: "Total Deductions",
+            value: `₹${stats.totalDeductions.toLocaleString()}`,
+          },
           { title: "Net Gross", value: `₹${stats.netGross.toLocaleString()}` },
         ].map((card, idx) => (
           <div
             key={idx}
             className="bg-slate-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow text-center"
           >
-            <h3 style={{ color: CARD_COLORS[idx] }} className="text-lg font-semibold">
+            <h3
+              style={{ color: CARD_COLORS[idx] }}
+              className="text-lg font-semibold"
+            >
               {card.title}
             </h3>
             <p className="text-2xl font-bold mt-2">{card.value}</p>
@@ -140,9 +154,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
         <div className="bg-slate-800 p-4 rounded-lg shadow">
           <h3 style={{ color: "#0e7490" }} className="mb-4 font-semibold">
             Salaries vs Deductions
@@ -159,7 +171,10 @@ const Dashboard = () => {
                 label={{ fill: "white", fontWeight: "bold" }}
               >
                 {pieData.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip

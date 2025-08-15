@@ -8,35 +8,31 @@ html, body {
   overflow-x: hidden;
 }
 
-
-/* Scrollbar Styles */
 ::-webkit-scrollbar {
-  height: 4px;  /* For horizontal scrollbar */
-  width: 4px;   /* For vertical scrollbar */
+  height: 4px;  
+  width: 4px;   
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b; /* slate-800 */
+  background: #1e293b; 
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #14b8a6; /* teal-500 */
+  background: #14b8a6; 
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #79838258; /* teal-400 */
+  background: #79838258; 
 }
 
-/* Firefox support */
 * {
   scrollbar-width: thin;
   scrollbar-color: #79838238 #1e293b;
 }
 
 
-/* Shimmer keyframes */
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -46,7 +42,7 @@ html, body {
   }
 }
 
-/* Shimmer effect for placeholders */
+
 .shimmer::before {
   content: "";
   position: absolute;

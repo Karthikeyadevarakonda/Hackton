@@ -9,11 +9,9 @@ const SALARY_COMPONENTS = [
   "PF", "ESI", "PT", "TDS", "OTHER_DEDUCTIONS",
 ];
 
-// ===== Helper Functions =====
 const formatValue = (value) =>
   value === null || value === undefined || value === "" ? "NA" : value;
 
-// ===== Components =====
 const StaffTable = ({ staffList, loading, onView, onEdit, onDelete }) => (
   <div className="overflow-x-auto rounded shadow-lg border border-slate-700 bg-slate-800 backdrop-blur-lg">
     <table className="w-full text-sm text-left text-slate-300">
@@ -25,38 +23,41 @@ const StaffTable = ({ staffList, loading, onView, onEdit, onDelete }) => (
         </tr>
       </thead>
       <tbody>
-        {loading ? (
-          <tr>
-            <td colSpan="5" className="text-center py-8">
-              <Loading />
-            </td>
-          </tr>
-        ) : (
-          staffList.map((staff) => (
-            <tr key={staff.id} className="border-b border-slate-700 hover:bg-slate-700/50 transition-colors">
-              <td className="px-6 py-4">{formatValue(staff.id)}</td>
-              <td className="px-6 py-4">{formatValue(staff.name)}</td>
-              <td className="px-6 py-4">{formatValue(staff.department)}</td>
-              <td className="px-6 py-4">{formatValue(staff.joiningDate)}</td>
-              <td className="px-6 py-4 flex gap-3 text-xl">
-                <EyeIcon 
-                  onClick={() => onView(staff)} 
-                  className="w-5 h-4  text-blue-400 hover:scale-110 cursor-pointer transition-transform" 
-                />
-                 <PencilIcon
-                  onClick={() => onEdit(staff)}
-                  className="w-5 h-4 text-yellow-400 hover:scale-110 cursor-pointer transition-transform"
-                />
-                {/* Using TrashIcon for deleting */}
-                <TrashIcon
-                  onClick={() => onDelete(staff.id)}
-                  className="w-5 h-4 text-red-500 hover:scale-110 cursor-pointer transition-transform"
-                />
-              </td>
-            </tr>
-          ))
-        )}
-      </tbody>
+  {loading ? (
+    <tr>
+      <td colSpan="5" className="text-center py-8">
+        <Loading />
+      </td>
+    </tr>
+  ) : (
+    staffList.map((staff, index) => (
+      <tr
+        key={staff.id}
+        className="border-b border-slate-700 hover:bg-slate-700/50 transition-colors"
+      >
+        {/* Show index starting from 1 */}
+        <td className="px-6 py-4">{index + 1}</td>
+        <td className="px-6 py-4">{formatValue(staff.name)}</td>
+        <td className="px-6 py-4">{formatValue(staff.department)}</td>
+        <td className="px-6 py-4">{formatValue(staff.joiningDate)}</td>
+        <td className="px-6 py-4 flex gap-3 text-xl">
+          <EyeIcon
+            onClick={() => onView(staff)}
+            className="w-5 h-4 text-blue-400 hover:scale-110 cursor-pointer transition-transform"
+          />
+          <PencilIcon
+            onClick={() => onEdit(staff)}
+            className="w-5 h-4 text-yellow-400 hover:scale-110 cursor-pointer transition-transform"
+          />
+          <TrashIcon
+            onClick={() => onDelete(staff.id)}
+            className="w-5 h-4 text-red-500 hover:scale-110 cursor-pointer transition-transform"
+          />
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
     </table>
   </div>
 );
@@ -172,7 +173,7 @@ const StaffViewModal = ({ staff, onClose }) => (
   </div>
 );
 
-// ===== Main Component =====
+
 export default function ManageUsers() {
   const { get, post, put, del, loading } = useApi("http://localhost:8081/api/staff");
   const [staffList, setStaffList] = useState([]);
@@ -197,11 +198,11 @@ export default function ManageUsers() {
     },
   });
 
-  const [shimmerDelay, setShimmerDelay] = useState(true); // For controlling shimmer delay
+  const [shimmerDelay, setShimmerDelay] = useState(true); 
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShimmerDelay(false); // Hide shimmer after 3 seconds
+      setShimmerDelay(false); 
     },500); 
     return () => clearTimeout(timer);
   }, []);

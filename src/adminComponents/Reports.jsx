@@ -13,34 +13,34 @@ export default function Reports() {
     e.preventDefault();
     try {
       await post(`/generate?year=${year}&month=${month}`);
-    } catch {
-      // error handled by useApi
+    } catch(err) {
+       console.error("ERROR IN GENERATING SALARY ",err)
     }
   };
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-white">
      <div className="flex items-center justify-between mb-8">
-  <h1 className="text-2xl bg-gradient-to-r from-cyan-300 to-slate-300 bg-clip-text text-transparent">
-    Salary Reports
+  <h1 className="text-xl bg-gradient-to-r from-cyan-300 to-slate-300 bg-clip-text text-transparent">
+    SALARY REPORTS
   </h1>
 
   <button
     onClick={() => setShowForm(!showForm)}
-   className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold shadow transition-transform hover:scale-105"
+   className="px-4 py-1.5 rounded bg-gradient-to-r from-teal-500 to-slate-400
+                 hover:from-teal-400 hover:to-green-300 text-slate-900 font-semibold 
+                 shadow transition-transform hover:scale-105"
   >
     {showForm ? "Close Form" : "Generate Salary"}
   </button>
 </div>
 
-
-      {/* Form */}
       {showForm && (
        <form
   onSubmit={handleSubmit}
   className="bg-slate-900 p-6 rounded-2xl shadow-inner mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 items-end"
 >
-  {/* Year Input */}
+
   <div>
     <label className="block text-slate-300 mb-1 font-medium">Year</label>
     <input
@@ -53,7 +53,7 @@ export default function Reports() {
     />
   </div>
 
-  {/* Month Input */}
+
   <div>
     <label className="block text-slate-300 mb-1 font-medium">Month</label>
     <input
@@ -69,7 +69,6 @@ export default function Reports() {
     />
   </div>
 
-  {/* Submit Button */}
   <button
     type="submit"
     disabled={loading}
@@ -81,12 +80,12 @@ export default function Reports() {
 
       )}
 
-      {/* Error */}
+   
       {error && (
         <p className="text-red-400 text-center mb-6 font-medium">{error}</p>
       )}
 
-      {/* Results */}
+    
       {results && results.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {results.map((item) => (

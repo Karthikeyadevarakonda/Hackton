@@ -3,11 +3,13 @@ import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import { FaUserCog, FaBars, FaPowerOff } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { FiHome, FiUsers, FiBarChart2, FiSettings } from "react-icons/fi";
+import AuditLogs from "./AuditLogs";
 
 import ManageUsers from "./ManageUsers";
 import Reports from "./Reports";
 import SalaryComponents from "./SalaryComponents";
 import Dashboard from "./Dashboard";
+import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ const AdminDashboard = () => {
     { path: "/adminDashboard/manageUsers", label: "Manage Users", icon: <FiUsers /> },
     { path: "/adminDashboard/salaryComponents", label: "Salary Components", icon: <FiSettings /> },
     { path: "/adminDashboard/reports", label: "Reports", icon: <FiBarChart2 /> },
+    { path: "/adminDashboard/auditLogs", label: "Audit Logs", icon: <ClipboardDocumentCheckIcon className="w-4 h-4" />  },
   ];
 
   return (
@@ -120,6 +123,7 @@ const AdminDashboard = () => {
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="manageUsers" element={<ManageUsers />} />
+          <Route path="auditLogs" element={<AuditLogs />} />
           <Route path="salaryComponents" element={<SalaryComponents />} />
           <Route path="reports" element={<Reports />} />
         </Routes>

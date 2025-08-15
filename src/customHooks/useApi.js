@@ -6,17 +6,15 @@ export default function useApi(baseUrl) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  // Store the current cancel token source
   const cancelSourceRef = useRef(null);
 
   const request = useCallback(
     async (method, endpoint = "", payload = null, config = { withCredentials: true }) => {
-      // Cancel any ongoing request before starting a new one
+     
       if (cancelSourceRef.current) {
         cancelSourceRef.current.cancel("Request canceled due to a new request.");
       }
 
-      // Create a new cancel token for this request
       const source = axios.CancelToken.source();
       cancelSourceRef.current = source;
 
@@ -53,7 +51,6 @@ export default function useApi(baseUrl) {
   const put = useCallback((endpoint = "", payload, config) => request("put", endpoint, payload, config), [request]);
   const del = useCallback((endpoint = "", config) => request("delete", endpoint, null, config), [request]);
 
-  // Cleanup cancel token when component unmounts
   useEffect(() => {
     return () => {
       if (cancelSourceRef.current) {
