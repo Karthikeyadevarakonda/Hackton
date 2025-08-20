@@ -130,8 +130,6 @@ export default function SalaryComponentCrud({ baseUrl }) {
 
 </div>
 
-
-      {/* Table */}
       <div className="overflow-x-auto overflow-y-auto h-86 rounded shadow-2xl border border-slate-700 bg-slate-900/70 backdrop-blur-lg">
         <table className="w-full text-sm text-left text-slate-200">
           <thead className="text-teal-300 uppercase bg-slate-800/50 backdrop-blur-md sticky top-0 z-10">
