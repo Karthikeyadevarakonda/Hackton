@@ -124,7 +124,9 @@ const Dashboard = () => {
 
       if (key.replace(/[_\s]/g, "").toLowerCase() === "medicalallowance") {
         shortName = "MEDICAL";
-      } else if (key.length > 10) {
+      } else if(key.replace(/[_\s]/g, "").toLowerCase() === "specialallowance"){
+        shortName = "SPECIAL";
+      }else if (key.length > 10) {
         shortName = key.slice(0, 10) + "…";
       }
 

@@ -7,7 +7,7 @@ import { FiHome, FiFileText, FiCalendar } from "react-icons/fi";
 
 import StaffHome from "./StaffHome";
 import Payslips from "./Payslips";
-import LeaveRequests from "./LeaveRequests.jsx";
+
 
 
 const StaffDashboard = () => {
@@ -29,7 +29,6 @@ const StaffDashboard = () => {
   const menuItems = [
     { path: "/staffDashboard", label: "Dashboard", icon: <FiHome /> },
     { path: "/staffDashboard/payslips", label: "Payslips", icon: <FiFileText /> },
-    { path: "/staffDashboard/leaveRequests", label: "Leave Requests", icon: <FiCalendar /> },
   ];
 
   return (
@@ -116,7 +115,6 @@ const StaffDashboard = () => {
         <Routes>
           <Route index element={<StaffHome />} />
           <Route path="payslips" element={<Payslips />} />
-          <Route path="leaveRequests" element={<LeaveRequests />} />
         </Routes>
         
       </main>
