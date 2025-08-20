@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useApi from "../customHooks/useApi";
 import AuditLogsShimmer from "../shimmers/AuditLogsShimmer";
 
@@ -13,7 +13,6 @@ export default function AuditLogs() {
   const [isFiltered, setIsFiltered] = useState(false);
   const [showShimmer, setShowShimmer] = useState(true);
 
-  // Ensure shimmer shows for at least 500ms
   useEffect(() => {
     if (!loading) {
       const timer = setTimeout(() => setShowShimmer(false), 500);
@@ -21,7 +20,7 @@ export default function AuditLogs() {
     }
   }, [loading]);
 
-  // Fetch logs on mount
+
   useEffect(() => {
     (async () => {
       try {
@@ -37,7 +36,6 @@ export default function AuditLogs() {
     })();
   }, []);
 
-  // Auto-reset to recent logs if all inputs are cleared
   useEffect(() => {
     if (!month && !year && !day) {
       setFilteredLogs(logs.slice(0, 5));
@@ -98,12 +96,11 @@ export default function AuditLogs() {
   };
 
   return (
-    <div className="px-6 py-2 space-y-6">
+    <div className="px-1 sm:px-6 sm:py-2 space-y-6">
       <h2 className="text-xl bg-gradient-to-r from-cyan-300 to-slate-300 bg-clip-text text-transparent">
         GENERATE LOGS
       </h2>
 
-      {/* Filter Form */}
       <form
         onSubmit={handleFilter}
         className="flex flex-wrap gap-4 bg-slate-900 p-4 rounded-lg border border-slate-700 shadow-lg"
@@ -168,12 +165,10 @@ export default function AuditLogs() {
         </div>
       </form>
 
-      {/* Heading */}
       <h1 className="text-xl bg-gradient-to-r from-cyan-300 to-slate-300 bg-clip-text text-transparent">
         {headingText}
       </h1>
 
-      {/* Table */}
       {loading || showShimmer ? (
         <AuditLogsShimmer />
       ) : filteredLogs.length === 0 ? (

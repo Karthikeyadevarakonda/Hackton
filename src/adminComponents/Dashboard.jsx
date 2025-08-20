@@ -12,9 +12,9 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
-
-const COLORS = ["#14b8a6", "#94a3b8", "#cbd5e1", "#ffffff", "#0e7490"];
-const CARD_COLORS = ["#14b8a6", "#0e7490", "#94a3b8", "#cbd5e1"];
+import { FaUsers, FaMoneyBillWave, FaWallet, FaCoins } from "react-icons/fa";
+const COLORS = ["#14B8A6", "#94a3b8", "#cbd5e1", "#ffffff", "#0e7490"];
+const CARD_COLORS = ["#14b8a6", "#0e7490", "#94a3b8", "#14b8a6"];
 
 function DashboardShimmer() {
   const shimmer =
@@ -58,6 +58,8 @@ const Dashboard = () => {
     componentTotals: {},
   });
   const [loading, setLoading] = useState(true);
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
   useEffect(() => {
     get();
@@ -117,32 +119,54 @@ const Dashboard = () => {
   ];
 
   const barData = Object.entries(stats.componentTotals).map(
-    ([key, value], idx) => ({
-      name: key.length > 10 ? key.slice(0, 10) + "…" : key,
-      count: value,
-      color: COLORS[idx % COLORS.length],
-    })
+    ([key, value], idx) => {
+      let shortName = key;
+
+      if (key.replace(/[_\s]/g, "").toLowerCase() === "medicalallowance") {
+        shortName = "MEDICAL";
+      } else if (key.length > 10) {
+        shortName = key.slice(0, 10) + "…";
+      }
+
+      return {
+        name: shortName,
+        count: value,
+        color: COLORS[idx % COLORS.length],
+      };
+    }
   );
 
   return (
-    <div className="p-6 space-y-6 bg-slate-900 min-h-screen text-white">
+    <div className="space-y-4 bg-slate-900  text-white lg:-mb-5">
+      {/* Summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {[
-          { title: "Total Staff", value: stats.totalStaff },
+          {
+            title: "Total Staff",
+            value: stats.totalStaff,
+            icon: <FaUsers size={24} className="" />,
+          },
           {
             title: "Total Salaries",
             value: `₹${stats.totalSalaries.toLocaleString()}`,
+            icon: <FaMoneyBillWave size={24} />,
           },
           {
             title: "Total Deductions",
             value: `₹${stats.totalDeductions.toLocaleString()}`,
+            icon: <FaWallet size={24} />,
           },
-          { title: "Net Gross", value: `₹${stats.netGross.toLocaleString()}` },
+          {
+            title: "Net Gross",
+            value: `₹${stats.netGross.toLocaleString()}`,
+            icon: <FaCoins size={24} className="text-slate-300" />,
+          },
         ].map((card, idx) => (
           <div
             key={idx}
-            className="bg-slate-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow text-center"
+            className="bg-slate-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center text-center"
           >
+            <div className="mb-2">{card.icon}</div>
             <h3
               style={{ color: CARD_COLORS[idx] }}
               className="text-lg font-semibold"
@@ -154,71 +178,123 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-slate-800 p-4 rounded-lg shadow">
-          <h3 style={{ color: "#0e7490" }} className="mb-4 font-semibold">
-            Salaries vs Deductions
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label={{ fill: "white", fontWeight: "bold" }}
-              >
-                {pieData.map((_, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{ backgroundColor: "#1e293b", border: "none" }}
-                itemStyle={{ color: "white" }}
-                labelStyle={{ color: "white" }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+  
+  <div className="bg-slate-800 p-4 rounded-lg shadow">
+    <h3
+      style={{ color: "#0e7490" }}
+      className="mb-4 font-semibold text-sm sm:text-xl"
+    >
+      Salaries vs Deductions
+    </h3>
+    <ResponsiveContainer width="100%" height={isMobile ? 180 : 200}>
+      <PieChart>
+        <Pie
+          data={pieData}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={isMobile ? 55 : 90}
+          label={{
+            fill: "white",
+            fontWeight: "bold",
+            fontSize: isMobile ? 12 : 16,
+          }}
+        >
+          {pieData.map((_, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+            />
+          ))}
+        </Pie>
+        <Tooltip
+          contentStyle={{ backgroundColor: "#1e293b", border: "none" }}
+          itemStyle={{ color: "white", fontSize: isMobile ? 10 : 12 }}
+          labelStyle={{ color: "white" }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
 
-        <div className="bg-slate-800 p-4 rounded-lg shadow">
-          <h3 style={{ color: "#14b8a6" }} className="mb-4 font-semibold">
-            Salary Components Distribution
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={barData}
-              margin={{ top: 20, right: 20, left: 0, bottom: 50 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis
-                dataKey="name"
-                stroke="#94a3b8"
-                tick={{ fontSize: 12 }}
-                interval={0}
-                angle={-35}
-                textAnchor="end"
-              />
-              <YAxis stroke="#94a3b8" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#1e293b", border: "none" }}
-                itemStyle={{ color: "white" }}
-                labelStyle={{ color: "white" }}
-              />
-              <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-                {barData.map((entry, index) => (
-                  <Cell key={`cell-bar-${index}`} fill={entry.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+  
+  <div className="bg-slate-800 p-4 rounded-lg shadow">
+    <h3
+      style={{ color: "#14b8a6" }}
+      className="mb-4 font-semibold text-sm sm:text-xl"
+    >
+      Salary Components Distribution
+    </h3>
+
+    <ResponsiveContainer width="100%" height={isMobile ? 240 : 220}>
+      <BarChart
+        data={barData}
+        layout={isMobile ? "vertical" : "horizontal"}
+        margin={{
+          top: 10,
+          right: isMobile ? 10 : 20,
+          left: isMobile ? 15 : 10,
+          bottom: isMobile ? 10 : 40,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+
+        {isMobile ? (
+          <>
+            <XAxis
+              type="number"
+              stroke="#94a3b8"
+              tick={{ fontSize: 8 }}
+              allowDecimals={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              stroke="#94a3b8"
+              tick={{ fontSize: 8 }}
+              width={60}
+            />
+          </>
+        ) : (
+          <>
+            <XAxis
+              dataKey="name"
+              stroke="#94a3b8"
+              tick={{ fontSize: 12 }}
+              interval={0}
+              angle={-45}
+              textAnchor="end"
+              padding={{ left: 0, right: 5 }}
+            />
+            <YAxis
+              stroke="#94a3b8"
+              tick={{ fontSize: 12 }}
+              tickMargin={8}
+              allowDecimals={false}
+            />
+          </>
+        )}
+
+        <Tooltip
+          contentStyle={{ backgroundColor: "#1e293b", border: "none" }}
+          itemStyle={{ color: "white", fontSize: isMobile ? 10 : 12 }}
+          labelStyle={{ color: "white" }}
+        />
+        <Bar
+          dataKey="count"
+          radius={[3, 3, 0, 0]}
+          maxBarSize={isMobile ? 14 : 35}
+        >
+          {barData.map((entry, index) => (
+            <Cell key={`cell-bar-${index}`} fill={entry.color} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+</div>
+
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import React from 'react'
+import SalaryComponentCrud from '../designingComponents/SalaryComponentsCrud'
 
 const SalaryComponents = () => {
   return (
     <div>
-      <h1>SALARY COMPONENTS</h1>
+     <SalaryComponentCrud baseUrl="http://localhost:8081/api/salary-components" />
     </div>
   )
 }

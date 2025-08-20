@@ -1,6 +1,6 @@
 @import "tailwindcss";
-/* 
-*{
+
+/* *{
     outline: 1px solid red;
 } */
 
@@ -41,6 +41,24 @@ html, body {
     transform: translateX(100%);
   }
 }
+
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(140deg);
+}
+
+/* Force recolor for Chrome/Edge/Safari */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2); /* turns icon white */
+  cursor: pointer;
+}
+
 
 
 .shimmer::before {

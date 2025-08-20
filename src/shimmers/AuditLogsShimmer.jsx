@@ -1,9 +1,8 @@
-import React from "react";
 
 export default function AuditLogsShimmer() {
   const shimmer =
     "relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent";
-    
+
   const TableSkeleton = () => (
     <div className="overflow-x-auto rounded shadow-lg border border-slate-700 bg-slate-800">
       <table className="w-full text-sm text-left text-slate-300">
