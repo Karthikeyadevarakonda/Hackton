@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './designingComponents/App.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from './contexts/ThemeContext.jsx'
 import Login from './forms/Login.jsx'
 import Register from './forms/Register.jsx'
 import ProtectedRoutes from './security/ProtectedRoutes.jsx'
@@ -20,34 +21,36 @@ import NotFound from './designingComponents/NotFound.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <Routes>
+  <ThemeProvider>
+    <BrowserRouter>
+      <Routes>
 
-   
-      <Route path='/' element={<App />}/>
-      <Route path='/features' element={<Features/>}/>
-      <Route path='/aboutUs' element={<About/>}/>
-      <Route path='/unauth' element={<Unauth/>}/>
-      
+     
+        <Route path='/' element={<App />}/>
+        <Route path='/features' element={<Features/>}/>
+        <Route path='/aboutUs' element={<About/>}/>
+        <Route path='/unauth' element={<Unauth/>}/>
+        
 
-       <Route element={<NotAuthenticated/>}>
-           <Route path='/login' element={<Login/>}/>
-           <Route path='/register' element={<Register/>}/>
+         <Route element={<NotAuthenticated/>}>
+             <Route path='/login' element={<Login/>}/>
+             <Route path='/register' element={<Register/>}/>
+         </Route>
+
+     
+
+       <Route element={<IsAuthenticated/>}>
+
+        <Route path='/adminDashboard/*' element={<ProtectedRoutes><AdminDashboard/></ProtectedRoutes>}/>
+        <Route path='/hrDashboard/*' element={<HrProtectedRoute><HrDashboard/></HrProtectedRoute>}/>
+        <Route path='/staffDashboard/*' element={<StaffProtectedRoute><StaffDashboard/></StaffProtectedRoute>}/>
+        
        </Route>
 
-   
-
-     <Route element={<IsAuthenticated/>}>
-
-      <Route path='/adminDashboard/*' element={<ProtectedRoutes><AdminDashboard/></ProtectedRoutes>}/>
-      <Route path='/hrDashboard/*' element={<HrProtectedRoute><HrDashboard/></HrProtectedRoute>}/>
-      <Route path='/staffDashboard/*' element={<StaffProtectedRoute><StaffDashboard/></StaffProtectedRoute>}/>
-      
-     </Route>
-
-     <Route path='*' element={<NotFound/>}/>
-      
-    </Routes>
-  </BrowserRouter>
+       <Route path='*' element={<NotFound/>}/>
+        
+      </Routes>
+    </BrowserRouter>
+  </ThemeProvider>
 )
 

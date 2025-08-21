@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useApi from "../customHooks/useApi"; // ✅ updated import
+import useApi from "../customHooks/useApi";
+import { useTheme } from "../contexts/ThemeContext";
+import ThemeToggle from "../components/ThemeToggle";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { colors } = useTheme();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -61,9 +64,12 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-slate-800 border-t-4 border-teal-400 rounded-xl shadow-md p-6">
-        <h1 className="text-center text-xl font-bold tracking-wide text-white mb-4">
+    <div className={`min-h-screen ${colors.primary} flex items-center justify-center px-4 transition-colors duration-300`}>
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+      <div className={`w-full max-w-sm ${colors.card} border-t-4 ${colors.accent.includes('teal') ? 'border-teal-400' : 'border-blue-500'} rounded-xl shadow-md p-6 transition-colors duration-300`}>
+        <h1 className={`text-center text-xl font-bold tracking-wide ${colors.text} mb-4`}>
           LOGIN
         </h1>
 
@@ -74,7 +80,7 @@ const Login = () => {
             required
             type="text"
             placeholder="Username"
-            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className={`w-full px-3 py-2 ${colors.input} ${colors.text} ${colors.border} border rounded-md ${colors.textMuted.replace('text-', 'placeholder-')} focus:outline-none focus:ring-2 ${colors.accent.includes('teal') ? 'focus:ring-teal-400' : 'focus:ring-blue-500'} transition-colors duration-300`}
           />
 
           <input
@@ -83,7 +89,7 @@ const Login = () => {
             required
             type="password"
             placeholder="Password"
-            className="w-full px-3 py-2 bg-slate-900 text-white border border-slate-700 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className={`w-full px-3 py-2 ${colors.input} ${colors.text} ${colors.border} border rounded-md ${colors.textMuted.replace('text-', 'placeholder-')} focus:outline-none focus:ring-2 ${colors.accent.includes('teal') ? 'focus:ring-teal-400' : 'focus:ring-blue-500'} transition-colors duration-300`}
           />
 
           {(formError || error) && (
@@ -95,14 +101,14 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-teal-500 hover:bg-teal-400 text-slate-900 tracking-wide rounded font-bold transition"
+            className={`w-full py-2 ${colors.button} text-white tracking-wide rounded font-bold transition-colors`}
           >
             {loading ? "Logging in..." : "LOG-IN"}
           </button>
 
-          <p className="text-center text-xs text-gray-400">
+          <p className={`text-center text-xs ${colors.textMuted}`}>
             Don't have an account?{" "}
-            <Link to="/register" className="text-teal-400 hover:underline">
+            <Link to="/register" className={`${colors.accent.includes('teal') ? 'text-teal-400' : 'text-blue-500'} hover:underline`}>
               Register
             </Link>
           </p>
