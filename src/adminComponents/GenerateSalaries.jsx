@@ -63,18 +63,19 @@ export default function GenerateSalaries() {
               Month
             </label>
             <input
-              type="text"
-              value={month}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/, "");
-                setMonth(val ? val.padStart(2, "0") : "");
-              }}
-              required
-              placeholder="01 - 12"
-              className="w-full px-3 py-2 rounded-md bg-slate-800 border border-slate-600 
-                         focus:border-teal-400 focus:ring-1 focus:ring-teal-400 outline-none text-white 
-                         transition h-8 sm:h-10 text-sm sm:text-base"
-            />
+  type="text"
+  value={month}
+  onChange={(e) => {
+    const val = e.target.value.replace(/\D/g, ""); // only digits
+    setMonth(val); // no forced zero padding
+  }}
+  required
+  placeholder="01 - 12"
+  className="w-full px-3 py-2 rounded-md bg-slate-800 border border-slate-600
+             focus:border-teal-400 focus:ring-1 focus:ring-teal-400 outline-none text-white
+             transition h-8 sm:h-10 text-sm sm:text-base"
+/>
+
           </div>
 
           <button

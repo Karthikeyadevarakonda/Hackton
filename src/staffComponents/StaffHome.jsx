@@ -50,7 +50,7 @@ function DashboardShimmer() {
 }
 
 const StaffHome = () => {
-  const staffId = 19; // later use localStorage.getItem("id")
+  const staffId = 4; // later use localStorage.getItem("id")
   const { data: staffData, get: getStaff } = useApi(
     `http://localhost:8081/api/salary-transactions/staff/${staffId}`
   );
@@ -74,7 +74,7 @@ const StaffHome = () => {
 
   useEffect(() => {
     if (staffData && staffData.length > 0) {
-      // pick the latest salary record
+     
       const r = staffData[staffData.length - 1];
 
       const grossSalary = r.grossSalary ?? 0;
@@ -83,7 +83,6 @@ const StaffHome = () => {
       const deductions = r.totalDeductions ?? 0;
       const netSalary = r.netSalary ?? grossSalary - deductions;
 
-      // component breakdown comes directly as object
       const componentTotals = r.componentBreakdown || {};
 
       setStats({
@@ -117,7 +116,6 @@ const StaffHome = () => {
 
   return (
     <div className="space-y-4 bg-slate-900 text-white lg:-mb-5 px-2">
-      {/* Salary Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {[
           {
@@ -157,9 +155,9 @@ const StaffHome = () => {
         ))}
       </div>
 
-      {/* Charts */}
+    
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {/* Pie Chart */}
+       
         <div className="bg-slate-800 p-4 rounded-lg shadow">
           <h3
             style={{ color: "#0e7490" }}
@@ -196,7 +194,7 @@ const StaffHome = () => {
 
         </div>
 
-        {/* Salary Components Bar */}
+     
         <div className="bg-slate-800 p-4 rounded-lg shadow">
           <h3
             style={{ color: "#14b8a6" }}

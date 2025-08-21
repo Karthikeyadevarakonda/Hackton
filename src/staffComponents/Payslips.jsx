@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import favPng from "../assets/fav.png"; // company logo
+import favPng from "../assets/fav.png"; 
 import useApi from "../customHooks/useApi";
 
 const rowsPerPage = 8;
@@ -23,11 +23,11 @@ const toBase64 = (url) =>
   });
 
 export default function Payslips() {
-  const staffId = 19; // later replace with localStorage.getItem("id")
+  const staffId = 4; // later  i will replace with localStorage.getItem("id")
   const backendUrl = "http://localhost:8081";
   const { get } = useApi(backendUrl);
 
-  const [mode, setMode] = useState("latest"); // "latest" | "month" | "all"
+  const [mode, setMode] = useState("latest"); 
   const [month, setMonth] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +35,7 @@ export default function Payslips() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch salaries
+ 
  const fetchData = async () => {
   setLoading(true);
   try {
@@ -50,7 +50,6 @@ export default function Payslips() {
         return;
       }
 
-      // Validate month format: YYYY-MM
       const monthRegex = /^\d{4}-(0[1-9]|1[0-2])$/;
       if (!monthRegex.test(month)) {
         alert("Invalid month format. Please select a valid month.");
@@ -84,7 +83,6 @@ export default function Payslips() {
   }
 };
 
-  // Format amount
   function formatAmount(val) {
     if (val == null) return "";
     return "₹ " + new Intl.NumberFormat("en-IN").format(val);
@@ -111,7 +109,7 @@ export default function Payslips() {
 
     const formatAmount = (num) => num != null ? num.toLocaleString("en-IN", { maximumFractionDigits: 2 }) : "-";
 
-    // --- Header Table ---
+   
     autoTable(doc, {
       startY: y,
       body: [
@@ -145,7 +143,7 @@ export default function Payslips() {
 
     y = doc.lastAutoTable.finalY + 20;
 
-    // --- Employee Details Table ---
+
     autoTable(doc, {
       startY: y,
       head: [["Dept", "Join-Date", "Relieved Date", "Bank Name", "IFSC Code", "AC_NUM"]],
@@ -172,7 +170,6 @@ export default function Payslips() {
 
     y = doc.lastAutoTable.finalY + 20;
 
-    // --- Earnings & Deductions Table ---
     const earnings = [];
     const deductions = [];
 
@@ -217,7 +214,7 @@ export default function Payslips() {
 
     y = doc.lastAutoTable.finalY + 10;
 
-    // --- Summary Table ---
+    
     autoTable(doc, {
       startY: y,
       body: [
@@ -235,7 +232,6 @@ export default function Payslips() {
 
     y = doc.lastAutoTable.finalY + 10;
 
-    // --- Amount in Words ---
     const toWords = (num) => {
       if (!num) return "Zero";
       const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
@@ -260,7 +256,7 @@ export default function Payslips() {
       columnStyles: { 0: { cellWidth: pageWidth - 2 * marginX } }
     });
 
-    // --- Footer ---
+  
     const footerY = doc.lastAutoTable.finalY + 20;
     doc.setFontSize(9);
     doc.setTextColor(100);
@@ -276,7 +272,7 @@ export default function Payslips() {
   }
 };
 
-  // Filtering + pagination
+  
   const filtered = useMemo(() => {
     const q = (searchQuery || "").toLowerCase().trim();
     if (!q) return reports;
@@ -297,7 +293,7 @@ export default function Payslips() {
 
   return (
     <div className="p-6 grid gap-6">
-      {/* Card - Controls */}
+
       <div className="p-6 rounded-xl shadow-lg bg-slate-900 border border-slate-700">
         <h2 className="text-xl font-semibold mb-4 text-teal-400">My Salary Reports</h2>
 
@@ -341,9 +337,9 @@ export default function Payslips() {
         </div>
       </div>
 
-      {/* Card - Results */}
+      
       <div className="p-6 rounded-xl shadow-lg bg-slate-900 border border-slate-700">
-        {/* Search */}
+        
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 mb-4">
           <input
             type="text"
@@ -361,7 +357,7 @@ export default function Payslips() {
           </div>
         </div>
 
-        {/* Table */}
+      
         <div className="overflow-x-auto">
           <table className="w-full table-auto text-center text-slate-200">
             <thead>
@@ -401,7 +397,7 @@ export default function Payslips() {
           </table>
         </div>
 
-        {/* Pagination */}
+       
         <div className="flex justify-center mt-4 gap-2">
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
